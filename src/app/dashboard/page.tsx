@@ -111,12 +111,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       {/* Home Icon - Top Left */}
       <div className="absolute top-6 left-6 z-50">
         <Link
           href="/"
-          className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full transition-all group border border-white/20 hover:border-white/30 shadow-lg"
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-full transition-all group shadow-lg hover:shadow-xl hover:scale-105"
         >
           <Home className="h-5 w-5 text-white transition-transform group-hover:scale-110" />
           <span className="text-sm font-medium text-white">Home</span>
