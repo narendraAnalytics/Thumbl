@@ -1,0 +1,7 @@
+{
+  "name": "LinguistSnap Thumbnail AI",
+  "description": "A high-end AI-powered thumbnail creator supporting regional Indian languages with Google Search grounding and pro-level image generation.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
