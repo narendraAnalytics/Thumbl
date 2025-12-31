@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, X, Home, Sparkles, DollarSign } from "lucide-react"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -110,9 +111,23 @@ export function Navbar() {
         {/* Desktop Actions */}
         <div className="hidden items-center gap-4 md:flex">
           <ThemeToggle />
-          <Button asChild className="bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl hover:brightness-110">
-            <Link href="#get-started">Get Started</Link>
-          </Button>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:brightness-110">
+                Get Started
+              </button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: "w-10 h-10"
+                }
+              }}
+            />
+          </SignedIn>
         </div>
 
         {/* Mobile Menu Button */}
@@ -157,11 +172,25 @@ export function Navbar() {
                 </Link>
               )
             })}
-            <Button asChild className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl hover:brightness-110">
-              <Link href="#get-started" onClick={() => setIsMobileMenuOpen(false)}>
-                Get Started
-              </Link>
-            </Button>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:brightness-110">
+                  Get Started
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <div className="flex justify-center py-2">
+                <UserButton
+                  afterSignOutUrl="/"
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-10 h-10"
+                    }
+                  }}
+                />
+              </div>
+            </SignedIn>
           </div>
         </div>
       )}
