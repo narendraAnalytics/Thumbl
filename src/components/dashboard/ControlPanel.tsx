@@ -247,6 +247,8 @@ export function ControlPanel({
           <button
             type="button"
             onClick={() => setUseSearch(!useSearch)}
+            aria-label={useSearch ? 'Disable web search' : 'Enable web search'}
+            title={useSearch ? 'Disable web search' : 'Enable web search'}
             className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
               useSearch ? 'bg-gradient-to-r from-indigo-500 to-purple-500' : 'bg-slate-700'
             }`}
@@ -270,6 +272,8 @@ export function ControlPanel({
                   <button
                     type="button"
                     onClick={() => removeImage(idx)}
+                    aria-label={`Remove reference image ${idx + 1}`}
+                    title={`Remove reference image ${idx + 1}`}
                     className="absolute top-0.5 right-0.5 bg-red-600 text-white p-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -285,6 +289,8 @@ export function ControlPanel({
                     multiple
                     accept="image/*"
                     onChange={handleImageUpload}
+                    aria-label="Upload reference images"
+                    title="Upload reference images"
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
                   <div className="w-full h-full border-2 border-dashed border-slate-700 hover:border-indigo-500 bg-slate-800/30 rounded-lg flex items-center justify-center transition-all">
