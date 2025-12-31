@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { DashboardNavbar } from "@/components/dashboard/DashboardNavbar"
+import Link from "next/link"
+import { Home } from "lucide-react"
 import { ControlPanel } from "@/components/dashboard/ControlPanel"
 import { ResultsPanel } from "@/components/dashboard/ResultsPanel"
 import type { ThumbnailResult, IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from "@/types/thumbnail"
@@ -110,10 +111,19 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <DashboardNavbar />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+      {/* Home Icon - Top Left */}
+      <div className="absolute top-6 left-6 z-50">
+        <Link
+          href="/"
+          className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full transition-all group border border-white/20 hover:border-white/30 shadow-lg"
+        >
+          <Home className="h-5 w-5 text-white transition-transform group-hover:scale-110" />
+          <span className="text-sm font-medium text-white">Home</span>
+        </Link>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 pb-20">
+      <main className="max-w-7xl mx-auto px-4 pt-24 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-20">
         {/* Left Panel: Controls */}
         <div className="lg:col-span-4">
           <ControlPanel

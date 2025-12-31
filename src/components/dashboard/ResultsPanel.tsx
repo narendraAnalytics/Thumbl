@@ -22,15 +22,15 @@ export function ResultsPanel({
   // Empty State
   if (!result && !loading) {
     return (
-      <div className="bg-slate-900/50 border border-slate-800 border-dashed rounded-3xl p-12 flex flex-col items-center justify-center text-center min-h-[600px]">
-        <div className="w-24 h-24 bg-slate-800 rounded-3xl rotate-3 flex items-center justify-center mb-6">
-          <svg className="w-12 h-12 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center text-center min-h-[600px]">
+        <div className="w-20 h-20 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl rotate-3 flex items-center justify-center mb-6 border border-indigo-500/30">
+          <svg className="w-10 h-10 text-indigo-400/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
           </svg>
         </div>
-        <h3 className="text-2xl font-bold mb-2 text-white">Creative Canvas</h3>
-        <p className="text-slate-500 max-w-sm text-sm">
-          Your professional content will appear here once generated.
+        <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Creative Canvas</h3>
+        <p className="text-slate-400 max-w-sm text-sm">
+          Your AI-generated content will appear here
         </p>
       </div>
     )
@@ -39,21 +39,21 @@ export function ResultsPanel({
   // Loading State
   if (loading) {
     return (
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-12 flex flex-col items-center justify-center min-h-[600px]">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-2xl p-12 flex flex-col items-center justify-center min-h-[600px]">
         <div className="relative">
-          <div className="w-32 h-32 border-[6px] border-indigo-600/10 border-t-indigo-600 rounded-full animate-spin"></div>
+          <div className="w-28 h-28 border-[5px] border-indigo-600/10 border-t-indigo-500 rounded-full animate-spin"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 border-[6px] border-slate-700/50 border-t-white rounded-full animate-spin-reverse"></div>
+            <div className="w-18 h-18 border-[5px] border-purple-600/10 border-t-purple-400 rounded-full animate-spin-reverse"></div>
           </div>
         </div>
-        <div className="mt-12 space-y-4 text-center">
-          <h3 className="text-2xl font-black text-white tracking-tight uppercase italic">
-            Synthesizing...
+        <div className="mt-10 space-y-3 text-center">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent tracking-tight">
+            Generating Magic...
           </h3>
-          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest max-w-xs mx-auto">
-            {headline.trim() ? `Rendering "${headline.slice(0, 15)}${headline.length > 15 ? '...' : ''}"` : 'Auto-Generating Viral Headline'}
+          <p className="text-slate-400 text-xs font-semibold max-w-xs mx-auto">
+            {headline.trim() ? `"${headline.slice(0, 20)}${headline.length > 20 ? '...' : ''}"` : 'AI-Generating Headline'}
             <br />
-            Platform: {aspectRatio} • Lang: {language}
+            <span className="text-slate-500">{aspectRatio} • {language}</span>
           </p>
         </div>
         <style jsx>{`
@@ -73,10 +73,10 @@ export function ResultsPanel({
   if (!result) return null
 
   return (
-    <div className="space-y-6">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+    <div className="space-y-4">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl">
         {/* Header with Download */}
-        <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50 backdrop-blur">
+        <div className="p-3 border-b border-slate-700/50 flex justify-between items-center bg-slate-900/50 backdrop-blur">
           <div className="flex items-center gap-3">
             <div className={`px-2 py-0.5 text-[10px] font-black rounded text-white uppercase tracking-tighter ${
               result.aspectRatio === '16:9' ? 'bg-red-600' :
@@ -122,8 +122,8 @@ export function ResultsPanel({
 
       {/* Topic Intelligence Section */}
       {(result.searchContext || (result.groundingLinks && result.groundingLinks.length > 0)) && (
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-          <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-4 flex items-center gap-2">
+        <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-2xl p-5 shadow-xl">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
             <svg className="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
