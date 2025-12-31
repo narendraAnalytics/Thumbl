@@ -2,8 +2,10 @@
 
 import * as React from "react"
 import { Volume2, VolumeX, MonitorPlay } from "lucide-react"
+import { useUser } from "@clerk/nextjs"
 
 export function HeroSection() {
+  const { user, isLoaded } = useUser()
   const [isMuted, setIsMuted] = React.useState(true)
   const [showTooltip, setShowTooltip] = React.useState(true)
   const [showGalleryButton, setShowGalleryButton] = React.useState(false)
@@ -21,8 +23,8 @@ export function HeroSection() {
     // Trigger rotation
     setIsRotating(true)
 
-    // Show gallery button
-    setShowGalleryButton(true)
+    // Toggle gallery button (on/off)
+    setShowGalleryButton(prev => !prev)
 
     // Reset rotation after animation completes
     setTimeout(() => {
@@ -84,6 +86,17 @@ export function HeroSection() {
         </span>
       </button>
 
+      {/* Welcome Button - Bottom Left (Only for Logged In Users) */}
+      {isLoaded && user && (
+        <div className="absolute left-4 bottom-8 z-20 md:left-8 md:bottom-12 animate-fade-in">
+          <button className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 px-5 py-2.5 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:brightness-110 animate-pulse">
+            <span className="text-sm font-semibold">
+              Welcome {user.firstName || user.username || "User"}!
+            </span>
+          </button>
+        </div>
+      )}
+
       {/* MonitorPlay Icon - Bottom Center */}
       <div className="group absolute bottom-8 left-1/2 -translate-x-1/2 z-20 md:bottom-12">
         {/* View Gallery Button - Shows on Click */}
@@ -122,14 +135,16 @@ export function HeroSection() {
           </div>
         )}
 
-        {/* Hover Tooltip */}
-        <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 scale-95 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 pointer-events-none">
-          <div className="rounded-lg bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 px-3 py-1.5 shadow-lg whitespace-nowrap">
-            <p className="text-xs font-semibold text-white">
-              Click Here
-            </p>
+        {/* Hover Tooltip - Only show when gallery button is hidden */}
+        {!showGalleryButton && (
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 scale-95 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 pointer-events-none">
+            <div className="rounded-lg bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 px-3 py-1.5 shadow-lg whitespace-nowrap">
+              <p className="text-xs font-semibold text-white">
+                Click Here
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* MonitorPlay Icon */}
         <MonitorPlay
