@@ -368,3 +368,74 @@ Successfully created a modern, professional landing page for Thumbl with:
 - Sound toggle for video control
 
 All components are production-ready and follow Next.js 16 best practices with TypeScript, Tailwind CSS v4, and accessibility standards.
+
+---
+
+## Continuation Session - December 31, 2025
+
+### Features Added This Session
+
+#### 1. Clerk Authentication Integration
+- **Clerk v6.36.5** for user authentication
+- Created `src/proxy.ts` - Middleware with route protection
+- Created sign-in/sign-up pages with Clerk components
+- Updated Navbar with auth UI (`SignInButton`, `UserButton`)
+- Wrapped app with `ClerkProvider` in layout.tsx
+- **Bug Fix**: Excluded video formats from middleware matcher to fix video playback
+
+#### 2. MonitorPlay Icon (Bottom Center)
+- Added MonitorPlay icon with cyan glow effect
+- Hover shows "Click Here" tooltip
+- Click triggers:
+  - 360° rotation animation
+  - "View Gallery" button appears with animated arrow
+  - Toggle behavior (click again to hide)
+- Tooltip only shows when gallery button is hidden
+
+#### 3. Welcome Button (Bottom Left)
+- Uses `useUser()` hook from Clerk
+- Shows "Welcome {firstName/username}!" when logged in
+- Emerald-cyan-blue gradient
+- Pulse + fade-in animations
+- Position mirrors sound button on opposite side
+
+#### 4. Sound Button Enhancements
+- Moved from top-right to bottom-right
+- Orange-violet gradient styling
+- Auto-hide tooltip (3 seconds)
+
+### Files Created
+- `src/proxy.ts`
+- `src/app/sign-in/[[...sign-in]]/page.tsx`
+- `src/app/sign-up/[[...sign-up]]/page.tsx`
+
+### Files Modified
+- `src/components/HeroSection.tsx` - Major updates
+- `src/components/Navbar.tsx` - Auth components
+- `src/app/layout.tsx` - ClerkProvider
+- `.env` - Clerk configuration
+
+### Key Code Patterns
+
+**Clerk Authentication:**
+```tsx
+import { useUser } from "@clerk/nextjs"
+const { user, isLoaded } = useUser()
+{isLoaded && user && <WelcomeButton />}
+```
+
+**Toggle Logic:**
+```tsx
+setShowGalleryButton(prev => !prev)
+{!showGalleryButton && <Tooltip />}
+```
+
+### Updated Layout
+```
+[Background Video]
+[View Gallery] (on click)
+    ↓
+[MonitorPlay Icon]
+[Welcome User!]  [Sound On/Off]
+(logged-in only)
+```

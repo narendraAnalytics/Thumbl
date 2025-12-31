@@ -3,9 +3,11 @@
 import * as React from "react"
 import { Volume2, VolumeX, MonitorPlay } from "lucide-react"
 import { useUser } from "@clerk/nextjs"
+import { useRouter } from "next/navigation"
 
 export function HeroSection() {
   const { user, isLoaded } = useUser()
+  const router = useRouter()
   const [isMuted, setIsMuted] = React.useState(true)
   const [showTooltip, setShowTooltip] = React.useState(true)
   const [showGalleryButton, setShowGalleryButton] = React.useState(false)
@@ -89,7 +91,10 @@ export function HeroSection() {
       {/* Welcome Button - Bottom Left (Only for Logged In Users) */}
       {isLoaded && user && (
         <div className="absolute left-4 bottom-8 z-20 md:left-8 md:bottom-12 animate-fade-in">
-          <button className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 px-5 py-2.5 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:brightness-110 animate-pulse">
+          <button
+            onClick={() => router.push('/dashboard')}
+            className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 px-5 py-2.5 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:brightness-110 animate-pulse cursor-pointer"
+          >
             <span className="text-sm font-semibold">
               Welcome {user.firstName || user.username || "User"}!
             </span>
