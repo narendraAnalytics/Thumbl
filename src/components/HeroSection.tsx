@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { Volume2, VolumeX } from "lucide-react"
+import { Volume2, VolumeX, Hd, Sparkles, Images } from "lucide-react"
+import FloatingActionMenu from "./FloatingActionMenu"
 
 export function HeroSection() {
   const [isMuted, setIsMuted] = React.useState(true)
@@ -13,6 +14,25 @@ export function HeroSection() {
       setIsMuted(!isMuted)
     }
   }
+
+  const menuOptions = [
+    {
+      label: 'Get Started',
+      onClick: () => {
+        // Navigate to get started section or form
+        console.log('Get Started clicked');
+      },
+      Icon: <Sparkles className="w-4 h-4" />
+    },
+    {
+      label: 'View Gallery',
+      onClick: () => {
+        // Navigate to gallery section
+        console.log('View Gallery clicked');
+      },
+      Icon: <Images className="w-4 h-4" />
+    }
+  ];
 
   return (
     <section className="relative -mt-16 min-h-screen overflow-hidden pt-16">
@@ -47,6 +67,14 @@ export function HeroSection() {
           Sound {isMuted ? "Off" : "On"}
         </span>
       </button>
+
+      {/* HD Quality Floating Menu */}
+      <FloatingActionMenu
+        options={menuOptions}
+        triggerIcon={<Hd className="w-10 h-10 md:w-12 md:h-12" />}
+        triggerGradient="from-blue-500 via-purple-500 to-pink-500"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 translate-x-8 md:bottom-12 z-20"
+      />
     </section>
   )
 }
