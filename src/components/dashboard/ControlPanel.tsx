@@ -254,7 +254,7 @@ export function ControlPanel({
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="Describe the visual concept..."
-                  className="bg-white border-indigo-200 text-orange-600 placeholder-orange-300/50 h-20 resize-none text-sm shadow-sm"
+                  className="bg-white border-indigo-200 text-orange-600 placeholder-orange-300/50 h-50 resize-none text-sm shadow-sm"
                 />
               </div>
 
