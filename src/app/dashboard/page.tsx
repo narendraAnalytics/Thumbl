@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Home } from "lucide-react"
+import { Home, Images } from "lucide-react"
 import { ControlPanel } from "@/components/dashboard/ControlPanel"
 import { ResultsPanel } from "@/components/dashboard/ResultsPanel"
 import type { ThumbnailResult, IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from "@/types/thumbnail"
 import { searchGrounding, enhancePrompt, generateThumbnail } from "@/services/geminiService"
+import { saveThumbnail } from "@/app/actions/thumbnailActions"
 
 export default function DashboardPage() {
   // State management
@@ -78,6 +79,19 @@ export default function DashboardPage() {
         groundingLinks,
         aspectRatio
       })
+
+      // Save to ImageKit + Database in background
+      await saveThumbnail({
+        imageUrl,
+        headline,
+        prompt,
+        language,
+        size,
+        aspectRatio,
+        style,
+        searchContext,
+        groundingLinks,
+      })
     } catch (err: any) {
       console.error('Generation error:', err)
       setError(err.message || "Failed to generate thumbnail. Please try again.")
@@ -113,8 +127,9 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
-      {/* Home Icon - Top Left */}
-      <div className="absolute top-6 left-6 z-50">
+      {/* Header with Home and Gallery buttons */}
+      <div className="absolute top-6 left-0 right-0 z-50 flex items-center justify-between px-6">
+        {/* Home Button - Left */}
         <Link
           href="/"
           className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-full transition-all group shadow-lg hover:shadow-xl hover:scale-105"
@@ -122,6 +137,18 @@ export default function DashboardPage() {
           <Home className="h-5 w-5 text-white transition-transform group-hover:scale-110" />
           <span className="text-sm font-medium text-white">Home</span>
         </Link>
+
+        {/* View Gallery Button - Center */}
+        <Link
+          href="/gallery"
+          className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-orange-500 to-violet-600 hover:from-orange-600 hover:to-violet-700 rounded-full transition-all group shadow-lg hover:shadow-xl hover:scale-105"
+        >
+          <Images className="h-5 w-5 text-white transition-transform group-hover:scale-110" />
+          <span className="text-sm font-medium text-white">View Gallery</span>
+        </Link>
+
+        {/* Empty div for flex spacing */}
+        <div className="w-[140px]"></div>
       </div>
 
       <main className="max-w-7xl mx-auto px-4 pt-24 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-20">
