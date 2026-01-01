@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<ThumbnailResult | null>(null)
   const [referenceImages, setReferenceImages] = useState<string[]>([])
+  const [isPanelExpanded, setIsPanelExpanded] = useState(true)
 
   // Form state
   const [headline, setHeadline] = useState('')
@@ -125,7 +126,7 @@ export default function DashboardPage() {
 
       <main className="max-w-7xl mx-auto px-4 pt-24 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-20">
         {/* Left Panel: Controls */}
-        <div className="lg:col-span-4">
+        <div className={isPanelExpanded ? 'lg:col-span-4' : 'lg:col-span-1'}>
           <ControlPanel
             headline={headline}
             setHeadline={setHeadline}
@@ -149,11 +150,13 @@ export default function DashboardPage() {
             enhancing={enhancing}
             loading={loading}
             error={error}
+            isPanelExpanded={isPanelExpanded}
+            onTogglePanel={() => setIsPanelExpanded(!isPanelExpanded)}
           />
         </div>
 
         {/* Right Panel: Results */}
-        <div className="lg:col-span-8">
+        <div className={isPanelExpanded ? 'lg:col-span-8' : 'lg:col-span-11'}>
           <ResultsPanel
             result={result}
             loading={loading}

@@ -11,6 +11,21 @@ interface ResultsPanelProps {
   language: string
 }
 
+const getCanvasClasses = (ratio: AspectRatio): string => {
+  switch (ratio) {
+    case '16:9':
+      return 'w-full max-w-4xl aspect-video' // 896px max, widescreen
+    case '1:1':
+      return 'w-full max-w-lg aspect-square' // 512px max, square
+    case '4:5':
+      return 'w-full max-w-md aspect-[4/5]' // 448px max, portrait
+    case '9:16':
+      return 'w-full max-w-sm aspect-[9/16] max-h-[80vh]' // 384px max, story format with height constraint
+    default:
+      return 'w-full max-w-2xl aspect-video' // fallback
+  }
+}
+
 export function ResultsPanel({
   result,
   loading,
@@ -23,7 +38,7 @@ export function ResultsPanel({
   if (!result && !loading) {
     return (
       <>
-        <div className="relative h-[600px] rounded-2xl p-[4px]">
+        <div className={`relative rounded-2xl p-[4px] mx-auto ${getCanvasClasses(aspectRatio)}`}>
           {/* Animated conic gradient border - rotates continuously */}
           <div
             className="absolute inset-0 rounded-2xl animate-spin-slow"
@@ -66,7 +81,7 @@ export function ResultsPanel({
   // Loading State
   if (loading) {
     return (
-      <div className="bg-orange-50/90 backdrop-blur-md border border-orange-200/50 rounded-2xl p-12 flex flex-col items-center justify-center min-h-[600px]">
+      <div className={`bg-orange-50/90 backdrop-blur-md border border-orange-200/50 rounded-2xl p-12 flex flex-col items-center justify-center mx-auto ${getCanvasClasses(aspectRatio)}`}>
         <div className="relative">
           <div className="w-28 h-28 border-[5px] border-indigo-600/10 border-t-indigo-500 rounded-full animate-spin"></div>
           <div className="absolute inset-0 flex items-center justify-center">

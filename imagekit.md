@@ -1276,3 +1276,168 @@ Use `auto` for most cases to let the SDK optimize encoding, and use `plain` or `
 | typography  | Sets the typography style of subtitle text. Supported values: `b`, `i`, `b_i`.                            | `typography: "b"`       |
 | fontOutline | Specifies the font outline for subtitles. Requires an outline width and color separated by an underscore. | `fontOutline: "2_blue"` |
 | fontShadow  | Specifies the font shadow for subtitles. Requires shadow color and indent separated by an underscore.     | `fontShadow: "blue_2"`  |
+
+
+// javascript
+
+import ImageKit from "imagekit";
+
+// or
+
+var ImageKit = require("imagekit");
+
+var imagekit = new ImageKit({
+    publicKey : "your_public_api_key",
+    privateKey : "your_private_api_key",
+    urlEndpoint : "https://ik.imagekit.io/your_imagekit_id/"
+});
+
+-----------------------------------------------------------------
+
+---
+title: SEO-friendly URLs with dynamic suffixes
+description: Make your URL SEO-friendly without changing the underlying file's name with dynamic SEO suffixes in ImageKit.
+---
+
+SEO starts with the file name. Google uses the URL path and the file name to understand your images and videos.
+
+For example, consider the following image of the Eiffel Tower.
+
+![Eiffel Tower](<https://ik.imagekit.io/ikmedia/docs_images/old-docs-images/Eiffel Tower.jpg?tr=w-1600>)
+
+The image URL ideally should have "Eiffel Tower" in the file name. This is more SEO-friendly than a generic file name, e.g., `DSC1234.jpg`.
+
+{% callout style="alert" %}
+**Bad image URL** \
+https://ik.imagekit.io/demo/DSC1234.jpg
+{% /callout %}
+
+{% callout style="success" %}
+**SEO-friendly image URL** \
+https://ik.imagekit.io/demo/eiffel-tower.jpg
+{% /callout %}
+
+## Dynamic SEO suffix (ik-seo)
+
+When you cannot modify the file names of already stored images, ImageKit helps you create dynamic SEO-friendly URLs.
+
+For example, let say you have the following image of the Eiffel Tower.
+
+```
+https://ik.imagekit.io/demo/DSC1234.jpg
+```
+
+Here, `https://ik.imagekit.io/demo/` is your [URL endpoint](/integration/connect-external-storage#url-endpoints).
+
+You can dynamically use **eiffel-tower.jpg** as the file name using `ik-seo` parameter. For example:
+
+```
+https://ik.imagekit.io/demo/ik-seo/DSC1234/eiffel-tower.jpg
+```
+
+So the following URL:
+
+https://ik.imagekit.io/demo/`ik-seo`/DSC1234/eiffel-tower.jpg
+
+will fetch the same image as:
+
+https://ik.imagekit.io/demo/DSC1234.jpg
+
+Essentially
+
+your-url-endpoint/old-file-name.extension
+
+becomes:
+
+your_url_endpoint/**`ik-seo`**/old-file-name/**`seo-friendly-file-name`**.extension
+
+### Accessing file that is stored in a nested folder
+
+If your file is stored inside a nested folder e.g.
+
+`https://ik.imagekit.io/demo/path/of/folder/old-file-name.jpg`
+
+You can still dynamically add an SEO-friendly suffix like this:
+
+`https://ik.imagekit.io/demo/ik-seo/path/of/folder/old-file-name/seo-friendly-file-name.jpg`
+
+## Examples
+
+Let's say we have the following URL:
+
+`https://ik.imagekit.io/your_imagekit_id/default-image.jpg`
+
+We want to change the file name from `default-image.jpg` to `seo-friendly-file-name.jpg`
+
+So the new URL becomes
+
+`https://ik.imagekit.io/your_imagekit_id/ik-seo/default-image/seo-friendly-file-name.jpg`
+
+Let's do this using the client-side SDKs.
+
+{% linetabs %}
+{% linetab title="Javascript" %}
+```javascript
+// Without ik-seo
+var imageURL = imagekit.url({
+    path: "/default-image.jpg",
+    urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/",
+    transformation: [{
+        height: 300,
+        width: 400
+    }]
+});
+
+// With ik-seo
+var imageURL = imagekit.url({
+    path: "/default-image/seo-friendly-file-name.jpg",
+    urlEndpoint: "https://ik.imagekit.io/your_imagekit_id/ik-seo",
+    transformation: [{
+        height: 300,
+        width: 400
+    }]
+});
+```
+{% /linetab %}
+
+{% linetab title="React" %}
+```javascript
+// Without ik-seo, urlEndpoint has been defined in parent IKContext 
+<IKImage
+  path="/default-image.jpg"
+  transformation={[{
+    height: 300,
+    width: 400
+  }]}
+/>
+  
+// With ik-seo
+<IKImage
+  urlEndpoint="https://ik.imagekit.io/your_imagekit_id/ik-seo"
+  path="/default-image/seo-friendly-file-name.jpg"
+  transformation={[{
+    height: 300,
+    width: 400
+  }]}
+/>
+```
+{% /linetab %}
+
+{% linetab title="Vue.js" %}
+```javascript
+// Without ik-seo, urlEndpoint has been defined globally 
+<ik-image 
+  path="/default-image.jpg"
+  :transformation="[{height:300,width:400}]"
+/>
+
+
+// With ik-seo
+<ik-image 
+  path="/default-image/seo-friendly-file-name.jpg"
+  :transformation="[{height:300,width:400}]"
+  urlEndpoint="https://ik.imagekit.io/your_imagekit_id/ik-seo"
+/>
+```
+{% /linetab %}
+{% /linetabs %}

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -56,6 +57,8 @@ interface ControlPanelProps {
   enhancing: boolean
   loading: boolean
   error: string | null
+  isPanelExpanded: boolean
+  onTogglePanel: () => void
 }
 
 export function ControlPanel({
@@ -81,18 +84,39 @@ export function ControlPanel({
   enhancing,
   loading,
   error,
+  isPanelExpanded,
+  onTogglePanel,
 }: ControlPanelProps) {
   const [activeTab, setActiveTab] = useState<'setup' | 'content' | 'style'>('content')
 
   return (
-    <div className="bg-gradient-to-br from-white via-indigo-50/30 to-purple-50/30 backdrop-blur-md border border-indigo-200/40 rounded-2xl p-5 shadow-2xl">
-      <h2 className="text-base font-bold mb-4 flex items-center gap-2 bg-gradient-to-r from-orange-400 to-violet-500 bg-clip-text text-transparent">
-        <span className="w-1 h-5 bg-gradient-to-b from-orange-500 to-violet-600 rounded-full"></span>
-        Creator Studio
-      </h2>
+    <div className="bg-gradient-to-br from-white via-indigo-50/30 to-purple-50/30 backdrop-blur-md border border-indigo-200/40 rounded-2xl p-5 shadow-2xl transition-all duration-300 ease-in-out">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-base font-bold flex items-center gap-2 bg-gradient-to-r from-orange-400 to-violet-500 bg-clip-text text-transparent">
+          <span className="w-1 h-5 bg-gradient-to-b from-orange-500 to-violet-600 rounded-full"></span>
+          Creator Studio
+        </h2>
 
-      {/* Tab Navigation */}
-      <div className="flex gap-1 p-1 bg-slate-800/50 rounded-lg mb-4">
+        {/* Toggle Button - Desktop Only */}
+        <button
+          type="button"
+          onClick={onTogglePanel}
+          aria-label={isPanelExpanded ? 'Hide panel' : 'Show panel'}
+          title={isPanelExpanded ? 'Hide panel' : 'Show panel'}
+          className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500/10 to-violet-600/10 hover:from-orange-500/20 hover:to-violet-600/20 border border-orange-500/30 transition-all hover:scale-105 active:scale-95"
+        >
+          {isPanelExpanded ? (
+            <ChevronLeft className="w-5 h-5 text-orange-500" />
+          ) : (
+            <ChevronRight className="w-5 h-5 text-orange-500" />
+          )}
+        </button>
+      </div>
+
+      {/* Content visible on mobile always, on desktop based on isPanelExpanded */}
+      <div className={isPanelExpanded ? '' : 'lg:hidden'}>
+        {/* Tab Navigation */}
+        <div className="flex gap-1 p-1 bg-slate-800/50 rounded-lg mb-4">
         <button
           type="button"
           onClick={() => setActiveTab('setup')}
@@ -439,6 +463,7 @@ export function ControlPanel({
           )}
         </div>
       </form>
+      </div>
     </div>
   )
 }
