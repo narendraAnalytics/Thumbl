@@ -107,7 +107,8 @@ export function ResultsPanel({
           <div className="flex items-center gap-3">
             <div className={`px-2 py-0.5 text-[10px] font-black rounded text-white uppercase tracking-tighter ${
               result.aspectRatio === '16:9' ? 'bg-red-600' :
-              result.aspectRatio === '3:4' ? 'bg-blue-600' : 'bg-pink-600'
+              result.aspectRatio === '1:1' ? 'bg-green-600' :
+              result.aspectRatio === '4:5' ? 'bg-blue-600' : 'bg-pink-600'
             }`}>
               {result.aspectRatio}
             </div>
@@ -135,7 +136,8 @@ export function ResultsPanel({
         <div className="p-6 flex justify-center bg-white/80">
           <div className={`rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 relative group transition-all ${
             result.aspectRatio === '16:9' ? 'w-full aspect-video' :
-            result.aspectRatio === '3:4' ? 'w-2/3 aspect-[3/4]' : 'w-1/2 aspect-[9/16]'
+            result.aspectRatio === '1:1' ? 'w-2/3 aspect-square' :
+            result.aspectRatio === '4:5' ? 'w-2/3 aspect-[4/5]' : 'w-1/2 aspect-[9/16]'
           }`}>
             <img
               src={result.imageUrl}

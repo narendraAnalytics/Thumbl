@@ -2,7 +2,7 @@ export type IndianLanguage = 'Telugu' | 'Hindi' | 'Tamil' | 'Marathi';
 
 export type ImageSize = '1K' | '2K' | '4K';
 
-export type AspectRatio = '16:9' | '3:4' | '9:16';
+export type AspectRatio = '16:9' | '1:1' | '4:5' | '9:16';
 
 export type ThumbnailStyle = 'Cinematic' | 'Cartoon' | 'Sketch' | '3D Art' | 'Minimalist';
 

@@ -76,9 +76,10 @@ const getFontStyle = (style: ThumbnailStyle): string => {
 };
 
 const getPlatformName = (ratio: AspectRatio): string => {
-  if (ratio === '16:9') return 'YouTube Thumbnail';
-  if (ratio === '3:4') return 'LinkedIn Post (Portrait)';
-  if (ratio === '9:16') return 'Instagram/Facebook Story/Reel';
+  if (ratio === '16:9') return 'YouTube Thumbnail / Standard Landscape';
+  if (ratio === '1:1') return 'Instagram / LinkedIn Square Post';
+  if (ratio === '4:5') return 'LinkedIn / Instagram Portrait Post';
+  if (ratio === '9:16') return 'Instagram / Facebook / YouTube Shorts Story/Reel';
   return 'Social Media Post';
 };
 
