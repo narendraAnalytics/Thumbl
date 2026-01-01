@@ -1,4 +1,4 @@
-export type IndianLanguage = 'Telugu' | 'Hindi' | 'Tamil' | 'Marathi';
+export type IndianLanguage = 'Telugu' | 'Hindi' | 'Tamil' | 'Marathi' | 'English' | 'Kannada';
 
 export type ImageSize = '1K' | '2K' | '4K';
 

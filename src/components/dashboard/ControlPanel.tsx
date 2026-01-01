@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import type { IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from "@/types/thumbnail"
 
-const LANGUAGES: IndianLanguage[] = ['Telugu', 'Hindi', 'Tamil', 'Marathi']
+const LANGUAGES: IndianLanguage[] = ['English', 'Telugu', 'Hindi', 'Tamil', 'Marathi', 'Kannada']
 const SIZES: ImageSize[] = ['1K', '2K', '4K']
 const STYLES: ThumbnailStyle[] = ['Cinematic', 'Cartoon', 'Sketch', '3D Art', 'Minimalist']
 
@@ -91,27 +91,50 @@ export function ControlPanel({
 
   return (
     <div className="bg-gradient-to-br from-white via-indigo-50/30 to-purple-50/30 backdrop-blur-md border border-indigo-200/40 rounded-2xl p-5 shadow-2xl transition-all duration-300 ease-in-out">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base font-bold flex items-center gap-2 bg-gradient-to-r from-orange-400 to-violet-500 bg-clip-text text-transparent">
-          <span className="w-1 h-5 bg-gradient-to-b from-orange-500 to-violet-600 rounded-full"></span>
-          Creator Studio
-        </h2>
+      {!isPanelExpanded ? (
+        // COLLAPSED STATE: Vertical layout with rotated text
+        <div className="hidden lg:flex flex-col items-center justify-start gap-4 h-full py-4">
+          {/* Vertical "Creator Studio" Text */}
+          <div className="flex-1 flex items-center justify-center">
+            <h2
+              className="text-base font-bold whitespace-nowrap bg-gradient-to-r from-orange-400 to-violet-500 bg-clip-text text-transparent"
+              style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+            >
+              Creator Studio
+            </h2>
+          </div>
 
-        {/* Toggle Button - Desktop Only */}
-        <button
-          type="button"
-          onClick={onTogglePanel}
-          aria-label={isPanelExpanded ? 'Hide panel' : 'Show panel'}
-          title={isPanelExpanded ? 'Hide panel' : 'Show panel'}
-          className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500/10 to-violet-600/10 hover:from-orange-500/20 hover:to-violet-600/20 border border-orange-500/30 transition-all hover:scale-105 active:scale-95"
-        >
-          {isPanelExpanded ? (
-            <ChevronLeft className="w-5 h-5 text-orange-500" />
-          ) : (
+          {/* Expand Button */}
+          <button
+            type="button"
+            onClick={onTogglePanel}
+            aria-label="Show panel"
+            title="Show panel"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-orange-500/10 to-violet-600/10 hover:from-orange-500/20 hover:to-violet-600/20 border border-orange-500/30 transition-all hover:scale-110 active:scale-95"
+          >
             <ChevronRight className="w-5 h-5 text-orange-500" />
-          )}
-        </button>
-      </div>
+          </button>
+        </div>
+      ) : (
+        // EXPANDED STATE: Normal horizontal header
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base font-bold flex items-center gap-2 bg-gradient-to-r from-orange-400 to-violet-500 bg-clip-text text-transparent">
+            <span className="w-1 h-5 bg-gradient-to-b from-orange-500 to-violet-600 rounded-full"></span>
+            Creator Studio
+          </h2>
+
+          {/* Collapse Button - Desktop Only */}
+          <button
+            type="button"
+            onClick={onTogglePanel}
+            aria-label="Hide panel"
+            title="Hide panel"
+            className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500/10 to-violet-600/10 hover:from-orange-500/20 hover:to-violet-600/20 border border-orange-500/30 transition-all hover:scale-105 active:scale-95"
+          >
+            <ChevronLeft className="w-5 h-5 text-orange-500" />
+          </button>
+        </div>
+      )}
 
       {/* Content visible on mobile always, on desktop based on isPanelExpanded */}
       <div className={isPanelExpanded ? '' : 'lg:hidden'}>
