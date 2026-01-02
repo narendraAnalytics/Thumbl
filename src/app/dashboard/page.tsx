@@ -2,20 +2,25 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useUser } from "@clerk/nextjs"
 import { Home, Images } from "lucide-react"
 import { ControlPanel } from "@/components/dashboard/ControlPanel"
 import { ResultsPanel } from "@/components/dashboard/ResultsPanel"
 import type { ThumbnailResult, IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from "@/types/thumbnail"
-import { searchGrounding, enhancePrompt, generateThumbnail } from "@/services/geminiService"
+import { searchGrounding, enhancePrompt } from "@/services/geminiService"
 import { saveThumbnail } from "@/app/actions/thumbnailActions"
+import { uploadToImageKitClient } from "@/services/imagekitClientService"
 
 export default function DashboardPage() {
+  const { user } = useUser()
+
   // State management
   const [loading, setLoading] = useState(false)
   const [enhancing, setEnhancing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<ThumbnailResult | null>(null)
-  const [referenceImages, setReferenceImages] = useState<string[]>([])
+  const [referenceImageFiles, setReferenceImageFiles] = useState<File[]>([])
+  const [referenceImagePreviews, setReferenceImagePreviews] = useState<string[]>([])
   const [isPanelExpanded, setIsPanelExpanded] = useState(true)
 
   // Form state
@@ -62,27 +67,57 @@ export default function DashboardPage() {
         groundingLinks = searchRes.links
       }
 
-      const imageUrl = await generateThumbnail(
-        headline,
-        prompt,
-        language,
-        size,
-        aspectRatio,
-        style,
-        referenceImages.length > 0 ? referenceImages : undefined,
-        searchContext
+      // Build FormData for API route (handles large files)
+      const formData = new FormData()
+      formData.append('headline', headline)
+      formData.append('prompt', prompt)
+      formData.append('language', language)
+      formData.append('size', size)
+      formData.append('aspectRatio', aspectRatio)
+      formData.append('style', style)
+      formData.append('searchContext', searchContext)
+
+      // Append reference image files (if any)
+      referenceImageFiles.forEach((file, index) => {
+        formData.append(`referenceImage${index}`, file)
+      })
+
+      // Call API route instead of Server Action
+      const response = await fetch('/api/generate-thumbnail', {
+        method: 'POST',
+        body: formData, // Multipart upload - no size limit issues
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Generation failed')
+      }
+
+      const { imageUrl } = await response.json()
+
+      // Upload to ImageKit from client
+      if (!user?.id) {
+        throw new Error('User not authenticated')
+      }
+
+      const { url: imagekitUrl, fileId: imagekitFileId } = await uploadToImageKitClient(
+        imageUrl,
+        `thumbnail-${Date.now()}.png`,
+        user.id
       )
 
+      // Display ImageKit URL
       setResult({
-        imageUrl,
+        imageUrl: imagekitUrl,
         searchContext,
         groundingLinks,
         aspectRatio
       })
 
-      // Save to ImageKit + Database in background
+      // Save metadata to database (tiny payload ~1KB)
       await saveThumbnail({
-        imageUrl,
+        imagekitUrl,
+        imagekitFileId,
         headline,
         prompt,
         language,
@@ -105,15 +140,16 @@ export default function DashboardPage() {
     const files = e.target.files
     if (!files) return
 
-    const remainingSlots = 3 - referenceImages.length
+    const remainingSlots = 3 - referenceImageFiles.length
     const filesToProcess = Array.from(files).slice(0, remainingSlots)
 
     filesToProcess.forEach(file => {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setReferenceImages(prev => [...prev, reader.result as string])
-      }
-      reader.readAsDataURL(file)
+      // Store the File object (lightweight reference)
+      setReferenceImageFiles(prev => [...prev, file])
+
+      // Create preview URL for display (lightweight)
+      const previewUrl = URL.createObjectURL(file)
+      setReferenceImagePreviews(prev => [...prev, previewUrl])
     })
 
     // Reset input
@@ -122,7 +158,12 @@ export default function DashboardPage() {
 
   // Handler: Remove Image
   const removeImage = (index: number) => {
-    setReferenceImages(prev => prev.filter((_, i) => i !== index))
+    // Revoke object URL to free memory
+    URL.revokeObjectURL(referenceImagePreviews[index])
+
+    // Remove from both arrays
+    setReferenceImageFiles(prev => prev.filter((_, i) => i !== index))
+    setReferenceImagePreviews(prev => prev.filter((_, i) => i !== index))
   }
 
   return (
@@ -169,7 +210,7 @@ export default function DashboardPage() {
             setStyle={setStyle}
             useSearch={useSearch}
             setUseSearch={setUseSearch}
-            referenceImages={referenceImages}
+            referenceImages={referenceImagePreviews}
             handleImageUpload={handleImageUpload}
             removeImage={removeImage}
             handleEnhance={handleEnhance}

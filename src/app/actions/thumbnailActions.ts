@@ -4,11 +4,11 @@ import { auth } from '@clerk/nextjs/server'
 import { db } from '@/db'
 import { users, thumbnails } from '@/db/schema'
 import { eq } from 'drizzle-orm'
-import { uploadThumbnail } from '@/services/imagekitService'
 import type { IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from '@/types/thumbnail'
 
 interface SaveThumbnailParams {
-  imageUrl: string // base64 data URL from Gemini
+  imagekitUrl: string // ImageKit URL (uploaded from client)
+  imagekitFileId: string // ImageKit file ID
   headline: string
   prompt: string
   language: IndianLanguage
@@ -39,17 +39,13 @@ export async function saveThumbnail(params: SaveThumbnailParams) {
       dbUser = newUser
     }
 
-    // 2. Upload image to ImageKit
-    const filename = `thumbnail-${Date.now()}.png`
-    const imagekitResult = await uploadThumbnail(params.imageUrl, filename, userId)
-
-    // 3. Save thumbnail metadata to database
+    // 2. Save thumbnail metadata to database (image already uploaded from client)
     const [thumbnail] = await db
       .insert(thumbnails)
       .values({
         userId: dbUser.id,
-        imagekitUrl: imagekitResult.url,
-        imagekitFileId: imagekitResult.fileId,
+        imagekitUrl: params.imagekitUrl,
+        imagekitFileId: params.imagekitFileId,
         headline: params.headline || null,
         prompt: params.prompt,
         language: params.language,
@@ -65,7 +61,7 @@ export async function saveThumbnail(params: SaveThumbnailParams) {
       success: true,
       thumbnail: {
         id: thumbnail.id,
-        imageUrl: imagekitResult.url,
+        imageUrl: params.imagekitUrl,
         createdAt: thumbnail.createdAt,
       },
     }

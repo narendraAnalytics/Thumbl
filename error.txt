@@ -1,0 +1,85 @@
+✓ Starting...
+✓ Ready in 4.7s
+
+thread 'tokio-runtime-worker' (6548) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 76014 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000351.meta
+    1: Unable to open static sorted file 00000349.sst
+    2: The system cannot find the file specified. (os error 2)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'tokio-runtime-worker' (9612) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 56996 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000351.meta
+    1: Unable to open static sorted file 00000349.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (1804) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 57218 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000351.meta
+    1: Unable to open static sorted file 00000349.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7368) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 79104 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000351.meta
+    1: Unable to open static sorted file 00000349.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (6548) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 19168 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000351.meta
+    1: Unable to open static sorted file 00000349.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (1804) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 14122 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000351.meta
+    1: Unable to open static sorted file 00000349.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7368) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 47376 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000351.meta
+    1: Unable to open static sorted file 00000349.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (6548) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:963:22:
+Failed to lookup task type: Looking up task type for TaskId 75985 from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000266.meta
+    1: Unable to open static sorted file 00000260.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (9612) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\mod.rs:1354:30:
+Failed to lookup task id: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "NextConfig::enable_use_cache", global_name: "next-core@next_core::next_config::NextConfig::enable_use_cache", .. }, this: Some(RawVc::TaskCell(3, "next_core::next_config::NextConfig#0")), arg: () } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000352.meta
+    1: Unable to open static sorted file 00000348.sst
+    2: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (9612) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Meta for ModuleOptions::new (TaskId 27652))
+
+Caused by:
+    0: Looking up data for TaskId 27652 from database failed
+    1: Unable to open static sorted file referenced from 00000423.meta
+    2: Unable to open static sorted file 00000419.sst
+    3: The system cannot find the file specified. (os error 2)
+○ Compiling / ...

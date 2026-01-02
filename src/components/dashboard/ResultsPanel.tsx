@@ -39,9 +39,9 @@ export function ResultsPanel({
     return (
       <>
         <div className={`relative rounded-2xl p-[4px] mx-auto ${getCanvasClasses(aspectRatio)}`}>
-          {/* Animated conic gradient border - rotates continuously */}
+          {/* Gradient border */}
           <div
-            className="absolute inset-0 rounded-2xl animate-spin-slow"
+            className="absolute inset-0 rounded-2xl"
             style={{
               background: 'conic-gradient(from 0deg, #6366f1, #a855f7, #ec4899, #f59e0b, #10b981, #6366f1)',
             }}
@@ -60,20 +60,6 @@ export function ResultsPanel({
             </p>
           </div>
         </div>
-
-        <style jsx>{`
-          .animate-spin-slow {
-            animation: spin-border 4s linear infinite;
-          }
-          @keyframes spin-border {
-            from {
-              transform: rotate(0deg);
-            }
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}</style>
       </>
     )
   }
@@ -85,7 +71,7 @@ export function ResultsPanel({
         <div className="relative">
           <div className="w-28 h-28 border-[5px] border-indigo-600/10 border-t-indigo-500 rounded-full animate-spin"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-18 h-18 border-[5px] border-purple-600/10 border-t-purple-400 rounded-full animate-spin-reverse"></div>
+            <div className="w-18 h-18 border-[5px] border-purple-600/10 border-t-purple-400 rounded-full animate-spin"></div>
           </div>
         </div>
         <div className="mt-10 space-y-3 text-center">
@@ -98,15 +84,6 @@ export function ResultsPanel({
             <span className="text-amber-700">{aspectRatio} • {language}</span>
           </p>
         </div>
-        <style jsx>{`
-          @keyframes spin-reverse {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(-360deg); }
-          }
-          .animate-spin-reverse {
-            animation: spin-reverse 2s linear infinite;
-          }
-        `}</style>
       </div>
     )
   }
@@ -120,11 +97,7 @@ export function ResultsPanel({
         {/* Header with Download */}
         <div className="p-3 border-b border-orange-200/50 flex justify-between items-center bg-orange-50/50 backdrop-blur">
           <div className="flex items-center gap-3">
-            <div className={`px-2 py-0.5 text-[10px] font-black rounded text-white uppercase tracking-tighter ${
-              result.aspectRatio === '16:9' ? 'bg-red-600' :
-              result.aspectRatio === '1:1' ? 'bg-green-600' :
-              result.aspectRatio === '4:5' ? 'bg-blue-600' : 'bg-pink-600'
-            }`}>
+            <div className={`px-2 py-0.5 text-[10px] font-black rounded text-white uppercase tracking-tighter ${result.aspectRatio === '16:9' ? 'bg-red-600' : result.aspectRatio === '1:1' ? 'bg-green-600' : result.aspectRatio === '4:5' ? 'bg-blue-600' : 'bg-pink-600'}`}>
               {result.aspectRatio}
             </div>
             <span className="text-xs font-bold uppercase tracking-widest text-amber-800">
@@ -149,11 +122,7 @@ export function ResultsPanel({
 
         {/* Image Display */}
         <div className="p-6 flex justify-center bg-white/80">
-          <div className={`rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 relative group transition-all ${
-            result.aspectRatio === '16:9' ? 'w-full aspect-video' :
-            result.aspectRatio === '1:1' ? 'w-2/3 aspect-square' :
-            result.aspectRatio === '4:5' ? 'w-2/3 aspect-[4/5]' : 'w-1/2 aspect-[9/16]'
-          }`}>
+          <div className={`rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 relative group transition-all ${result.aspectRatio === '16:9' ? 'w-full aspect-video' : result.aspectRatio === '1:1' ? 'w-2/3 aspect-square' : result.aspectRatio === '4:5' ? 'w-2/3 aspect-[4/5]' : 'w-1/2 aspect-[9/16]'}`}>
             <img
               src={result.imageUrl}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
