@@ -35,6 +35,7 @@ const PLATFORMS: { name: string; ratio: AspectRatio; icon: string }[] = [
 ]
 
 interface ControlPanelProps {
+  monthlyCount: number
   headline: string
   setHeadline: (value: string) => void
   prompt: string
@@ -62,6 +63,7 @@ interface ControlPanelProps {
 }
 
 export function ControlPanel({
+  monthlyCount,
   headline,
   setHeadline,
   prompt,
@@ -118,10 +120,17 @@ export function ControlPanel({
       ) : (
         // EXPANDED STATE: Normal horizontal header
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-bold flex items-center gap-2 bg-gradient-to-r from-orange-400 to-violet-500 bg-clip-text text-transparent">
-            <span className="w-1 h-5 bg-gradient-to-b from-orange-500 to-violet-600 rounded-full"></span>
-            Creator Studio
-          </h2>
+          <div className="flex flex-col gap-1">
+            <h2 className="text-base font-bold flex items-center gap-2 bg-gradient-to-r from-orange-400 to-violet-500 bg-clip-text text-transparent">
+              <span className="w-1 h-5 bg-gradient-to-b from-orange-500 to-violet-600 rounded-full"></span>
+              Creator Studio
+            </h2>
+            {monthlyCount > 0 && (
+              <p className="text-xs text-indigo-600 font-semibold">
+                {monthlyCount} {monthlyCount === 1 ? 'image' : 'images'} this month
+              </p>
+            )}
+          </div>
 
           {/* Collapse Button - Desktop Only */}
           <button

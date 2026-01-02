@@ -1,0 +1,25 @@
+When user first loggedIn he will be in the free plan only so in the navbar after icon show the plan status free.
+When upgrade will show the plan stauts .
+Also add restructions with nice ui message rather than console errors . Nice ui message and close button to close well . 
+
+I created 3 plan Free , Plus , Pro
+
+In Free Plan :
+    user can create :
+             1 image per/month.
+             Upload Reference Images only 1 image.
+             Quality 1k , 2k only No 4k for free user
+             Sytles : Cinematic , Cartoon only
+             Platform format : Youtube Only for free users
+
+In Plus plan : 
+    user can create :
+             5 image per/month.
+             Upload Reference  3 Images.
+             Quality 1k , 2k and 4k also
+             Sytles : All Aritistic Style
+             Platform format : All Platform format
+
+For pro :
+
+    All Unlimited 

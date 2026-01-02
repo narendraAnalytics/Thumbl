@@ -3,7 +3,7 @@
 import { auth } from '@clerk/nextjs/server'
 import { db } from '@/db'
 import { users, thumbnails } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { eq, gte, and, count } from 'drizzle-orm'
 import type { IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from '@/types/thumbnail'
 
 interface SaveThumbnailParams {
@@ -91,4 +91,36 @@ export async function getUserThumbnails() {
   })
 
   return userThumbnails
+}
+
+export async function getMonthlyImageCount() {
+  const { isAuthenticated, userId } = await auth()
+  if (!isAuthenticated || !userId) {
+    throw new Error('User not authenticated')
+  }
+
+  const dbUser = await db.query.users.findFirst({
+    where: eq(users.clerkUserId, userId),
+  })
+
+  if (!dbUser) {
+    return 0
+  }
+
+  // Calculate start of current month (UTC)
+  const now = new Date()
+  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1))
+
+  // Query thumbnails created this month
+  const result = await db
+    .select({ count: count() })
+    .from(thumbnails)
+    .where(
+      and(
+        eq(thumbnails.userId, dbUser.id),
+        gte(thumbnails.createdAt, startOfMonth)
+      )
+    )
+
+  return result[0]?.count || 0
 }
