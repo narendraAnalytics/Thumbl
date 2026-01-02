@@ -34,6 +34,16 @@ export function HeroSection() {
     }, 600) // Match rotation duration
   }
 
+  const handleViewGallery = () => {
+    // If user is logged in, go to their personal gallery
+    // If not logged in, go to public showcase
+    if (user) {
+      router.push('/gallery')
+    } else {
+      router.push('/showcase')
+    }
+  }
+
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setShowTooltip(false)
@@ -108,7 +118,10 @@ export function HeroSection() {
         {showGalleryButton && (
           <div className="absolute -top-28 left-1/2 -translate-x-1/2 z-30 animate-fade-in">
             {/* View Gallery Button */}
-            <button className="rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 px-6 py-2.5 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:brightness-110 whitespace-nowrap">
+            <button
+              onClick={handleViewGallery}
+              className="rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 px-6 py-2.5 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:brightness-110 whitespace-nowrap"
+            >
               View Gallery
             </button>
 

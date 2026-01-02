@@ -4,6 +4,7 @@ const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/',  // Landing page public
+  '/showcase(.*)',  // Public showcase gallery for non-authenticated users
 ])
 
 export default clerkMiddleware(async (auth, req) => {
