@@ -18,7 +18,7 @@ const navigationLinks = [
     iconColor: "text-cyan-500"
   },
   {
-    href: "/features",
+    href: "/#features",
     label: "Features",
     icon: Sparkles,
     iconColor: "text-purple-500"
