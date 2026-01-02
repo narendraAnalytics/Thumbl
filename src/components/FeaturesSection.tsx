@@ -15,7 +15,7 @@ import {
 const features = [
     {
         title: "Platform Optimized",
-        description: "Perfect aspect ratios for YouTube (16:9), Instagram/Facebook (9:16), and LinkedIn (3:4).",
+        description: "Perfect aspect ratios for YouTube (16:9), Instagram/Facebook (9:16), and LinkedIn (4:5).",
         icon: Layout,
         color: "from-blue-400 to-cyan-400"
     },
@@ -62,8 +62,9 @@ export function FeaturesSection() {
 
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-20">
-                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-                        Powerful Features for <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Viral Content</span>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+                        <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent">Powerful Features for </span>
+                        <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Viral Content</span>
                     </h2>
                     <p className="text-slate-600 max-w-2xl mx-auto text-lg">
                         Thumbl combines elite AI models with professional design workflows to help you create stunning thumbnails in seconds.
@@ -77,18 +78,18 @@ export function FeaturesSection() {
                             className="group relative p-8 rounded-3xl border border-slate-200 bg-white shadow-xs transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:border-blue-200"
                         >
                             {/* Feature Icon */}
-                            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${feature.color} p-0.5 mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                                <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
-                                    <feature.icon className={`w-7 h-7 bg-gradient-to-r ${feature.color} bg-clip-text text-transparent`} />
+                            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${feature.color} p-0.5 mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-500/10`}>
+                                <div className={`w-full h-full bg-gradient-to-r ${feature.color} rounded-[14px] flex items-center justify-center`}>
+                                    <feature.icon className="w-7 h-7 text-white" />
                                 </div>
                             </div>
 
                             {/* Feature Content */}
-                            <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2 transition-colors group-hover:text-blue-600">
+                            <h3 className={`text-xl font-bold bg-gradient-to-r ${feature.color} bg-clip-text text-transparent mb-3 flex items-center gap-2 transition-all duration-300 group-hover:drop-shadow-sm`}>
                                 {feature.title}
                                 <CheckCircle2 className="w-4 h-4 text-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </h3>
-                            <p className="text-slate-600 leading-relaxed">
+                            <p className="text-slate-600 leading-relaxed font-medium">
                                 {feature.description}
                             </p>
 
