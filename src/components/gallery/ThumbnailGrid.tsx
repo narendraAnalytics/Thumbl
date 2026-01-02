@@ -15,11 +15,28 @@ interface Thumbnail {
 }
 
 export default function ThumbnailGrid({ thumbnails }: { thumbnails: Thumbnail[] }) {
-  const downloadImage = (url: string, filename: string) => {
-    const link = document.createElement('a')
-    link.href = url
-    link.download = filename
-    link.click()
+  const downloadImage = async (url: string, filename: string) => {
+    try {
+      // Fetch the image as a blob
+      const response = await fetch(url)
+      const blob = await response.blob()
+
+      // Create object URL from blob
+      const blobUrl = URL.createObjectURL(blob)
+
+      // Create and click download link
+      const link = document.createElement('a')
+      link.href = blobUrl
+      link.download = filename
+      link.click()
+
+      // Clean up object URL
+      URL.revokeObjectURL(blobUrl)
+    } catch (error) {
+      console.error('Download failed:', error)
+      // Fallback: open in new tab if download fails
+      window.open(url, '_blank')
+    }
   }
 
   return (
