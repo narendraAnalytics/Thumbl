@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, Home, Sparkles, DollarSign } from "lucide-react"
+import { Menu, X, Home, Sparkles, DollarSign, Mail } from "lucide-react"
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 import { Button } from "@/components/ui/button"
@@ -30,6 +30,12 @@ const navigationLinks = [
     label: "Pricing",
     icon: DollarSign,
     iconColor: "text-green-500"
+  },
+  {
+    href: "/#contact",
+    label: "Contact",
+    icon: Mail,
+    iconColor: "text-blue-500"
   },
 ]
 
