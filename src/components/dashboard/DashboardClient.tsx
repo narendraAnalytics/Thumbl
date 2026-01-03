@@ -10,12 +10,16 @@ import type { ThumbnailResult, IndianLanguage, ImageSize, AspectRatio, Thumbnail
 import { searchGrounding, enhancePrompt } from "@/services/geminiService"
 import { saveThumbnail } from "@/app/actions/thumbnailActions"
 import { uploadToImageKitClient } from "@/services/imagekitClientService"
+import { UpgradeModal } from "@/components/UpgradeModal"
+import { PLAN_LIMITS } from "@/lib/planUtils"
+import type { PlanTier } from "@/lib/planUtils"
 
 interface DashboardClientProps {
   monthlyCount: number
+  userPlan: PlanTier
 }
 
-export default function DashboardClient({ monthlyCount }: DashboardClientProps) {
+export default function DashboardClient({ monthlyCount, userPlan }: DashboardClientProps) {
   const { user } = useUser()
 
   // State management
@@ -27,6 +31,17 @@ export default function DashboardClient({ monthlyCount }: DashboardClientProps) 
   const [referenceImagePreviews, setReferenceImagePreviews] = useState<string[]>([])
   const [isPanelExpanded, setIsPanelExpanded] = useState(true)
 
+  // Upgrade modal state
+  const [upgradeModal, setUpgradeModal] = useState<{
+    open: boolean
+    feature: string
+    requiredPlan: 'plus' | 'pro'
+  }>({
+    open: false,
+    feature: '',
+    requiredPlan: 'plus'
+  })
+
   // Form state
   const [headline, setHeadline] = useState('')
   const [prompt, setPrompt] = useState('')
@@ -35,6 +50,30 @@ export default function DashboardClient({ monthlyCount }: DashboardClientProps) 
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>('16:9')
   const [style, setStyle] = useState<ThumbnailStyle>('Cinematic')
   const [useSearch, setUseSearch] = useState(true)
+
+  // Check if feature is locked
+  const isLocked = (feature: string, value: string): boolean => {
+    const limits = PLAN_LIMITS[userPlan]
+    switch (feature) {
+      case 'quality':
+        return !limits.qualities.includes(value)
+      case 'style':
+        return !limits.styles.includes(value)
+      case 'platform':
+        return !limits.platforms.includes(value)
+      default:
+        return false
+    }
+  }
+
+  // Handle locked feature click
+  const handleLockedClick = (feature: string, requiredPlan: 'plus' | 'pro') => {
+    setUpgradeModal({
+      open: true,
+      feature,
+      requiredPlan
+    })
+  }
 
   // Handler: Enhance Prompt
   const handleEnhance = async () => {
@@ -57,6 +96,17 @@ export default function DashboardClient({ monthlyCount }: DashboardClientProps) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!prompt.trim()) return
+
+    // Check monthly limit before submission
+    const limit = PLAN_LIMITS[userPlan].monthlyImages
+    if (monthlyCount >= limit) {
+      setUpgradeModal({
+        open: true,
+        feature: `Monthly limit (${limit} ${limit === 1 ? 'image' : 'images'})`,
+        requiredPlan: userPlan === 'free' ? 'plus' : 'pro'
+      })
+      return
+    }
 
     setLoading(true)
     setError(null)
@@ -201,6 +251,9 @@ export default function DashboardClient({ monthlyCount }: DashboardClientProps) 
         <div className={isPanelExpanded ? 'lg:col-span-4' : 'lg:col-span-1'}>
           <ControlPanel
             monthlyCount={monthlyCount}
+            userPlan={userPlan}
+            isLocked={isLocked}
+            onLockedClick={handleLockedClick}
             headline={headline}
             setHeadline={setHeadline}
             prompt={prompt}
@@ -240,6 +293,15 @@ export default function DashboardClient({ monthlyCount }: DashboardClientProps) 
           />
         </div>
       </main>
+
+      {/* Upgrade Modal */}
+      <UpgradeModal
+        open={upgradeModal.open}
+        onClose={() => setUpgradeModal({ ...upgradeModal, open: false })}
+        feature={upgradeModal.feature}
+        currentPlan={userPlan}
+        requiredPlan={upgradeModal.requiredPlan}
+      />
     </div>
   )
 }

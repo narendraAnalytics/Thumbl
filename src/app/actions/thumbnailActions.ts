@@ -5,6 +5,7 @@ import { db } from '@/db'
 import { users, thumbnails } from '@/db/schema'
 import { eq, gte, and, count } from 'drizzle-orm'
 import type { IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from '@/types/thumbnail'
+import { getCurrentPlan } from '@/lib/planUtilsServer'
 
 interface SaveThumbnailParams {
   imagekitUrl: string // ImageKit URL (uploaded from client)
@@ -123,4 +124,16 @@ export async function getMonthlyImageCount() {
     )
 
   return result[0]?.count || 0
+}
+
+export async function getUserPlanInfo() {
+  const { isAuthenticated } = await auth()
+  if (!isAuthenticated) {
+    return { plan: 'free' as const, monthlyCount: 0 }
+  }
+
+  const monthlyCount = await getMonthlyImageCount()
+  const plan = await getCurrentPlan()
+
+  return { plan, monthlyCount }
 }
