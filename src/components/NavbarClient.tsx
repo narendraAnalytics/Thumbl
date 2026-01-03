@@ -26,7 +26,7 @@ const navigationLinks = [
     iconColor: "text-purple-500"
   },
   {
-    href: "/pricing",
+    href: "/#pricing",
     label: "Pricing",
     icon: DollarSign,
     iconColor: "text-green-500"

@@ -123,3 +123,68 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Subtle pulse for Free plan */
+  @keyframes pulse-subtle {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s ease-in-out infinite;
+  }
+
+  /* Pulse with glow for Plus plan */
+  @keyframes pulse-glow {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(147, 51, 234, 0.3);
+    }
+    50% {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 1.5s ease-in-out infinite;
+  }
+
+  /* Shimmer for Pro plan */
+  @keyframes shimmer {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+    }
+    25% {
+      transform: scale(1.05) rotate(-3deg);
+    }
+    75% {
+      transform: scale(1.05) rotate(3deg);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  /* Shimmer slide overlay */
+  @keyframes shimmer-slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer-slide {
+    animation: shimmer-slide 3s ease-in-out infinite;
+  }
+}
