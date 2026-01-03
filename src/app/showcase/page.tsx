@@ -25,7 +25,7 @@ export default function ShowcasePage() {
       <div className="max-w-6xl mx-auto px-4 pt-6 pb-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-full transition-all group shadow-lg hover:shadow-xl hover:scale-105"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-violet-600 hover:from-orange-600 hover:to-violet-700 rounded-full transition-all group shadow-lg hover:shadow-xl hover:scale-105"
         >
           <ArrowLeft className="h-5 w-5 text-white transition-transform group-hover:scale-110" />
           <span className="text-sm font-medium text-white">Back to Home</span>
