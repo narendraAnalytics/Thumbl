@@ -25,7 +25,7 @@ const footerLinks = {
 const socialLinks = [
     { icon: Twitter, href: "#", label: "Twitter" },
     { icon: Github, href: "#", label: "GitHub" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/nk-analytics", label: "LinkedIn",target: "_blank", rel: "noopener noreferrer"},
 ]
 
 export function Footer() {
@@ -60,6 +60,8 @@ export function Footer() {
                                     href={social.href}
                                     className="rounded-full bg-white/5 p-2 text-muted-foreground transition-all hover:bg-white/10 hover:text-white"
                                     aria-label={social.label}
+                                    target={social.target}
+                                    rel={social.rel}
                                 >
                                     <social.icon className="h-5 w-5" />
                                 </Link>

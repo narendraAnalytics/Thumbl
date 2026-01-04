@@ -45,7 +45,7 @@ export function ContactSection() {
                                 {
                                     icon: Mail,
                                     title: "Email Us",
-                                    value: "support@thumbl.com",
+                                    value: "narendra.insights@gmail.com",
                                     color: "bg-blue-500/10 text-blue-600"
                                 },
                                 {
@@ -57,7 +57,7 @@ export function ContactSection() {
                                 {
                                     icon: MapPin,
                                     title: "Office",
-                                    value: "San Francisco, CA",
+                                    value: "Amaravathi",
                                     color: "bg-pink-500/10 text-pink-600"
                                 }
                             ].map((item, index) => (

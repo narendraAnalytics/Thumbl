@@ -131,7 +131,7 @@ export function PricingSection() {
                 {/* Pricing */}
                 <div className="text-center mb-8">
                   <div className="flex items-baseline justify-center">
-                    <span className="text-5xl font-extrabold text-slate-900">${plan.price}</span>
+                    <span className={`text-5xl font-extrabold bg-gradient-to-r ${plan.gradientFrom} ${plan.gradientTo} bg-clip-text text-transparent`}>${plan.price}</span>
                     <span className="text-slate-600 ml-2">/{plan.period}</span>
                   </div>
                 </div>
