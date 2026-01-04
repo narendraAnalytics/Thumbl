@@ -64,12 +64,12 @@ export function HeroSection() {
         onLoadedData={() => console.log('Video loaded successfully')}
         className="absolute inset-0 z-0 h-full w-full object-cover object-center"
       >
-        <source src="/video/video1.mp4" type="video/mp4" />
+        <source src="/video/herosection.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-linear-to-r from-black/30 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50" />
 
       {/* Tooltip */}
       {showTooltip && (
