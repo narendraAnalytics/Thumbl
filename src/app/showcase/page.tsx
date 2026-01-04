@@ -16,6 +16,18 @@ export default function ShowcasePage() {
       title: 'Film Review Thumbnail',
       language: 'Kannada',
       category: 'Entertainment'
+    },
+    {
+      src: '/gallery/cricketAnalyst.png',
+      title: 'Cricket Analysis Thumbnail',
+      language: 'English',
+      category: 'Sports'
+    },
+    {
+      src: '/gallery/yoga.png',
+      title: 'Yoga & Fitness Thumbnail',
+      language: 'Hindi',
+      category: 'Health & Fitness'
     }
   ]
 
