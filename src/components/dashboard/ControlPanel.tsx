@@ -347,6 +347,9 @@ export function ControlPanel({
                   placeholder="AI will generate..."
                   className="bg-white border-indigo-200 text-orange-600 placeholder-orange-300/50 h-9 text-sm shadow-sm"
                 />
+                <p className="text-xs text-violet-400/70 mt-1.5 font-medium">
+                  💡 Use 3-5 words for best YouTube Headline
+                </p>
               </div>
 
               {/* Visual Prompt Input */}

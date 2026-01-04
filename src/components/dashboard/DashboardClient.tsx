@@ -50,7 +50,7 @@ export default function DashboardClient({ monthlyCount, userPlan }: DashboardCli
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>('16:9')
   const [style, setStyle] = useState<ThumbnailStyle>('Cinematic')
   const [useSearch, setUseSearch] = useState(true)
-  const [activeTab, setActiveTab] = useState<'setup' | 'content' | 'style'>('content')
+  const [activeTab, setActiveTab] = useState<'setup' | 'content' | 'style'>('setup')
 
   // Check if feature is locked
   const isLocked = (feature: string, value: string): boolean => {

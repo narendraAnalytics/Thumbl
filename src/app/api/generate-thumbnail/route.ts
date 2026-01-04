@@ -210,7 +210,7 @@ export async function POST(request: NextRequest) {
        Font Style: ${fontStyleInstruction}.
        Text must be the dominant visual element - large, bold, and perfectly readable.
        NO SPELLING ERRORS. Text must be crisp and sharp.`
-      : `TEXT OVERLAY: Generate a highly viral, attention-grabbing headline in ${language} based on visual context.
+      : `TEXT OVERLAY: Generate a highly viral, attention-grabbing headline in ${language} using exactly 3-6 words based on visual context.
        Font Style: ${fontStyleInstruction}.`
 
     const systemPrompt = `You are an expert YouTube Thumbnail Designer and Social Media Graphics Specialist known for creating high-CTR (Click-Through Rate) images for ${platform}.

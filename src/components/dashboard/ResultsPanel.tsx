@@ -26,6 +26,30 @@ const getCanvasClasses = (ratio: AspectRatio): string => {
   }
 }
 
+const downloadImage = async (url: string, filename: string) => {
+  try {
+    // Fetch the image as a blob
+    const response = await fetch(url)
+    const blob = await response.blob()
+
+    // Create object URL from blob
+    const blobUrl = URL.createObjectURL(blob)
+
+    // Create and click download link
+    const link = document.createElement('a')
+    link.href = blobUrl
+    link.download = filename
+    link.click()
+
+    // Clean up object URL
+    URL.revokeObjectURL(blobUrl)
+  } catch (error) {
+    console.error('Download failed:', error)
+    // Fallback: open in new tab if download fails
+    window.open(url, '_blank')
+  }
+}
+
 export function ResultsPanel({
   result,
   loading,
@@ -105,12 +129,12 @@ export function ResultsPanel({
             </span>
           </div>
           <button
-            onClick={() => {
-              const link = document.createElement('a')
-              link.href = result.imageUrl
-              link.download = `thumbl-${result.aspectRatio.replace(':', '-')}-${Date.now()}.png`
-              link.click()
-            }}
+            onClick={() =>
+              downloadImage(
+                result.imageUrl,
+                `thumbl-${result.aspectRatio.replace(':', '-')}-${Date.now()}.png`
+              )
+            }
             className="px-6 py-2.5 bg-white hover:bg-slate-200 text-slate-900 rounded-xl text-xs font-black transition-all flex items-center gap-2 shadow-lg active:scale-95"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
