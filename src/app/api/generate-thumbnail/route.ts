@@ -288,17 +288,43 @@ The final thumbnail must be ready to publish on ${platform} without any editing,
       })
     })
 
-    // 7. Call Gemini API
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-image-preview',
-      contents: { parts },
-      config: {
-        imageConfig: {
-          aspectRatio: aspectRatio,
-          imageSize: size,
+    // 7. Call Gemini API with retry logic
+    let response
+    let lastError
+    const maxRetries = 3
+    const baseDelay = 2000 // 2 seconds
+
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        response = await ai.models.generateContent({
+          model: 'gemini-3-pro-image-preview',
+          contents: { parts },
+          config: {
+            imageConfig: {
+              aspectRatio: aspectRatio,
+              imageSize: size,
+            }
+          },
+        })
+        break // Success - exit retry loop
+      } catch (error: any) {
+        lastError = error
+        const isOverloaded = error?.message?.includes('overloaded') || error?.message?.includes('503')
+
+        // Only retry on 503/overload errors
+        if (isOverloaded && attempt < maxRetries - 1) {
+          const delay = baseDelay * Math.pow(2, attempt) // Exponential backoff: 2s, 4s, 8s
+          console.log(`API overloaded, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})...`)
+          await new Promise(resolve => setTimeout(resolve, delay))
+        } else {
+          throw error // Not overloaded error or final attempt - rethrow
         }
-      },
-    })
+      }
+    }
+
+    if (!response) {
+      throw lastError || new Error('Failed after retries')
+    }
 
     // 8. Extract generated image
     let imageUrl = ""

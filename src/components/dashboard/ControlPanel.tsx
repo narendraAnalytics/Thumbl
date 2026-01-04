@@ -55,6 +55,8 @@ interface ControlPanelProps {
   setStyle: (value: ThumbnailStyle) => void
   useSearch: boolean
   setUseSearch: (value: boolean) => void
+  activeTab: 'setup' | 'content' | 'style'
+  setActiveTab: (tab: 'setup' | 'content' | 'style') => void
   referenceImages: string[]
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void
   removeImage: (index: number) => void
@@ -86,6 +88,8 @@ export function ControlPanel({
   setStyle,
   useSearch,
   setUseSearch,
+  activeTab,
+  setActiveTab,
   referenceImages,
   handleImageUpload,
   removeImage,
@@ -97,12 +101,32 @@ export function ControlPanel({
   isPanelExpanded,
   onTogglePanel,
 }: ControlPanelProps) {
-  const [activeTab, setActiveTab] = useState<'setup' | 'content' | 'style'>('content')
 
   // Check if monthly limit reached
   const monthlyLimit = PLAN_LIMITS[userPlan].monthlyImages
   const isLimitReached = monthlyCount >= monthlyLimit
   const nextPlan = userPlan === 'free' ? 'plus' : 'pro'
+
+  // Form-level submission handler to prevent submission unless on Style tab
+  const handleFormSubmit = (e: React.FormEvent) => {
+    // Only allow submission when on Style tab
+    if (activeTab !== 'style') {
+      e.preventDefault()
+      e.stopPropagation()
+      return
+    }
+    // Pass through to handleSubmit
+    handleSubmit(e)
+  }
+
+  // Keyboard handler to prevent Enter key from submitting form in Textarea
+  const handleTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Prevent Ctrl+Enter from submitting unless on Style tab
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && activeTab !== 'style') {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+  }
 
   return (
     <div className="bg-gradient-to-br from-white via-indigo-50/30 to-purple-50/30 backdrop-blur-md border border-indigo-200/40 rounded-2xl p-5 shadow-2xl transition-all duration-300 ease-in-out">
@@ -197,7 +221,7 @@ export function ControlPanel({
         </button>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         {/* Tab Content */}
         <div className="space-y-4">
           {/* Setup Tab */}
@@ -352,6 +376,7 @@ export function ControlPanel({
                 <Textarea
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
+                  onKeyDown={handleTextareaKeyDown}
                   placeholder="Describe the visual concept..."
                   className="bg-white border-indigo-200 text-orange-600 placeholder-orange-300/50 h-50 resize-none text-sm shadow-sm"
                 />

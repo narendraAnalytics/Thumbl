@@ -50,6 +50,7 @@ export default function DashboardClient({ monthlyCount, userPlan }: DashboardCli
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>('16:9')
   const [style, setStyle] = useState<ThumbnailStyle>('Cinematic')
   const [useSearch, setUseSearch] = useState(true)
+  const [activeTab, setActiveTab] = useState<'setup' | 'content' | 'style'>('content')
 
   // Check if feature is locked
   const isLocked = (feature: string, value: string): boolean => {
@@ -95,6 +96,12 @@ export default function DashboardClient({ monthlyCount, userPlan }: DashboardCli
   // Handler: Submit Form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Only allow submission from Style tab
+    if (activeTab !== 'style') {
+      return
+    }
+
     if (!prompt.trim()) return
 
     // Check monthly limit before submission
@@ -268,6 +275,8 @@ export default function DashboardClient({ monthlyCount, userPlan }: DashboardCli
             setStyle={setStyle}
             useSearch={useSearch}
             setUseSearch={setUseSearch}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
             referenceImages={referenceImagePreviews}
             handleImageUpload={handleImageUpload}
             removeImage={removeImage}
