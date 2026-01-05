@@ -150,7 +150,25 @@ export default function DashboardClient({ monthlyCount, userPlan }: DashboardCli
       })
 
       if (!response.ok) {
-        const errorData = await response.json()
+        let errorData
+        try {
+          const contentType = response.headers.get('content-type')
+          if (contentType && contentType.includes('application/json')) {
+            errorData = await response.json()
+          } else {
+            // Non-JSON error (likely HTML error page)
+            const errorText = await response.text()
+            console.error('Non-JSON error response:', errorText)
+            errorData = {
+              error: response.status === 413
+                ? 'Request too large. Please reduce image sizes or remove reference images.'
+                : `Server error: ${response.status}`
+            }
+          }
+        } catch (error) {
+          console.error('Failed to parse error response:', error)
+          errorData = { error: 'Failed to generate thumbnail. Please try again.' }
+        }
 
         // If monthly limit reached, show upgrade modal instead of error
         if (response.status === 429 && errorData.limitReached) {

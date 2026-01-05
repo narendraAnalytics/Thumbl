@@ -90,7 +90,21 @@ export async function uploadToImageKitClient(
       throw new Error('Failed to upload to ImageKit')
     }
 
-    const result = await uploadResponse.json()
+    // Safely parse JSON response with error handling
+    let result
+    try {
+      const contentType = uploadResponse.headers.get('content-type')
+      if (contentType && contentType.includes('application/json')) {
+        result = await uploadResponse.json()
+      } else {
+        const text = await uploadResponse.text()
+        console.error('ImageKit returned non-JSON response:', text)
+        throw new Error('ImageKit returned invalid response format')
+      }
+    } catch (error) {
+      console.error('Failed to parse ImageKit response:', error)
+      throw new Error('Failed to process ImageKit upload response')
+    }
 
     return {
       url: result.url,
