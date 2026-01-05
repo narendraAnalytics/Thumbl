@@ -64,7 +64,7 @@ export function HeroSection() {
         onLoadedData={() => console.log('Video loaded successfully')}
         className="absolute inset-0 z-0 h-full w-full object-cover object-center"
       >
-        <source src="/video/herosection.mp4" type="video/mp4" />
+        <source src="/video/Herosection.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
