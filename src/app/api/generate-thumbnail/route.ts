@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { GoogleGenAI } from '@google/genai'
 import { IndianLanguage, ImageSize, AspectRatio, ThumbnailStyle } from '@/types/thumbnail'
+import { getMonthlyImageCount } from '@/app/actions/thumbnailActions'
+import { checkMonthlyLimit } from '@/lib/planUtilsServer'
+
+// Configure route to handle large file uploads
+export const maxDuration = 60 // Maximum duration for route (60 seconds)
+export const dynamic = 'force-dynamic' // Don't cache this route
 
 // Helper functions copied from geminiService.ts
 const getAIClient = () => {
@@ -160,7 +166,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // 2. Parse multipart form data
+    // 2. Check monthly limit
+    const monthlyCount = await getMonthlyImageCount()
+    const limitCheck = await checkMonthlyLimit(monthlyCount)
+
+    if (!limitCheck.allowed) {
+      return NextResponse.json(
+        {
+          error: `Monthly limit reached. You have used ${monthlyCount} of ${limitCheck.limit} images this month. Upgrade to ${limitCheck.currentPlan === 'free' ? 'Plus' : 'Pro'} plan for more images.`,
+          limitReached: true,
+          currentCount: monthlyCount,
+          limit: limitCheck.limit,
+          currentPlan: limitCheck.currentPlan
+        },
+        { status: 429 } // 429 Too Many Requests
+      )
+    }
+
+    // 3. Parse multipart form data
     const formData = await request.formData()
 
     // Extract parameters

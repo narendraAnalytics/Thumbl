@@ -151,6 +151,18 @@ export default function DashboardClient({ monthlyCount, userPlan }: DashboardCli
 
       if (!response.ok) {
         const errorData = await response.json()
+
+        // If monthly limit reached, show upgrade modal instead of error
+        if (response.status === 429 && errorData.limitReached) {
+          setUpgradeModal({
+            open: true,
+            feature: `Monthly limit (${errorData.limit} ${errorData.limit === 1 ? 'image' : 'images'})`,
+            requiredPlan: errorData.currentPlan === 'free' ? 'plus' : 'pro'
+          })
+          setLoading(false)
+          return // Don't throw error, just show modal
+        }
+
         throw new Error(errorData.error || 'Generation failed')
       }
 

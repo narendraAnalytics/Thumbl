@@ -28,6 +28,12 @@ export default function ShowcasePage() {
       title: 'Yoga & Fitness Thumbnail',
       language: 'Hindi',
       category: 'Health & Fitness'
+    },
+    {
+      src: '/gallery/linkediNpoat.png',
+      title: 'LinkedIn Post Thumbnail',
+      language: 'English',
+      category: 'Social Media'
     }
   ]
 

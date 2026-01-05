@@ -3,8 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  serverActions: {
-    bodySizeLimit: '10mb',
+  experimental: {
+    serverComponentsExternalPackages: ['@google/genai'],
+    middlewareClientMaxBodySize: '50mb',
   },
 };
 
