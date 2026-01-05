@@ -4,6 +4,7 @@ import { FeaturesSection } from "@/components/FeaturesSection"
 import { PricingSection } from "@/components/PricingSection"
 import { ContactSection } from "@/components/ContactSection"
 import { Footer } from "@/components/Footer"
+import { PromoModalWrapper } from "@/components/PromoModalWrapper"
 
 export default function Home() {
   return (
@@ -14,6 +15,9 @@ export default function Home() {
       <PricingSection />
       <ContactSection />
       <Footer />
+
+      {/* Promotional Video Modal */}
+      <PromoModalWrapper />
     </main>
   )
 }
